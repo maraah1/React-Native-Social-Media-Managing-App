@@ -1,74 +1,66 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View , Picker, FormLabel, FormInput} from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { Button } from 'react-native-elements';
+import axios from 'axios';
 
 export default class Register extends Component {
 
+state = {
+  name: '',
+  email: '',
+  password: ''
+}
+
+handleSubmit = e => {
+console.log("register submit hit")
+axios.post(`http://localhost:8000/register`, this.state)
+   .then(response => {
+     console.log("register response:", response.data)
+     const { navigate } = this.props.navigation
+     navigate('Fourth', { user : response.data})
+ })
+}
+
+
+
 render(){
-
   return (
-    <View style={styles.container}>
-        <Text h1>Register</Text>
+    <View >
+    <Text>Register</Text>
 
-        <FormLabel>Name</FormLabel>
-        <FormInput style={styles.textBox}
+    <TextInput
+      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+      onChangeText={(name) => this.setState({name})}
+      autoCapitalize= 'none'
+      placeholder= "Enter Name"
+      value={this.state.name}
+    />
 
-        />
-        <FormLabel>Email</FormLabel>
-        <FormInput style={styles.textBox}
+    <TextInput
+      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+      onChangeText={(email) => this.setState({email})}
+      autoCapitalize= 'none'
+      placeholder= "Enter Email"
+      value={this.state.email}
+    />
 
-        />
-        {/* <Picker
-          // selectedValue={this.state.language}
-          style={{ height: 50, width: 100 }}
-          // onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-          <Picker.Item label="Company" value="Company" />
-          <Picker.Item label="Personal Brand" value="Personal Brand" />
-        </Picker> */}
-
-        <FormLabel>Phone</FormLabel>
-        <FormInput style={styles.textBox}
-
-        />
-        <FormLabel>Password</FormLabel>
-        <TextInput style={styles.textBox}
-
-        />
-        <FormLabel>Confirm Password</FormLabel>
-        <FormInput style={styles.textBox}
-
-        />
-
-        <Button
-          raised
-          style={{width: 100, height: 100}}
-          onPress = {
-            () => navigate("First", {})
-          }
-          title = "Register"
-        />
-      </View>
+    <TextInput
+      style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+      onChangeText={(password) => this.setState({password})}
+      autoCapitalize= 'none'
+      placeholder= "Enter Password"
+      value={this.state.password}
+    />
+    <Button
+      raised
+      style={{width: 100, height: 100}}
+      onPress = {
+        (e) => {this.handleSubmit()}
+      }
+      title = "Register"
+    />
+    </View>
   )
 }
 
 }
-
-
-
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50 + '%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  textBox: {
-    height: 20 + '%',
-    width: 45 + '%',
-    borderWidth: 1,
-    borderColor: 'black',
-    margin: 1 + '%'
-
-  }
-});
