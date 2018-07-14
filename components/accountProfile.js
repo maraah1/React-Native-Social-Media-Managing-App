@@ -4,6 +4,8 @@ import { StyleSheet, Text, TextInput, View, List, ListItem, Image, ScrollView } 
 import { Icon, Header, Left, Container } from 'native-base';
 import { Button, Card } from 'react-native-elements';
 import axios from 'axios';
+import UpdateForm from './updateform'
+import CardInfo from './CardInfo'
 
 
 export default class AccountProfile extends Component {
@@ -11,12 +13,13 @@ export default class AccountProfile extends Component {
 state = {
   isToggle : false,
   posts : [],
-  updateform: false
+  updateform: false,
+  clickedId: '',
 }
 
 handleSubmit = (e) => {
 let newState = {
-   media_buttons_id : 1,
+   media_buttons_id : button_id,
    image : this.state.image,
    post : this.state.post,
    day: this.state.day,
@@ -32,6 +35,19 @@ let newState = {
  })
 
 }
+
+deletePost = (id, e) => {
+  axios.delete(`http://localhost:8000/delete/${id}`)
+  .then(results => {
+    console.log(results)
+    this.setState({
+      posts: [...results.data]
+    })
+  }).catch(error => {
+    console.log(error)
+  })
+}
+
 
 componentWillMount(){
   let id = this.props.navigation.state.params.user_id
@@ -51,7 +67,8 @@ componentWillMount(){
    //console.log("ACCOUNT PROFILE PROPS:", this.props )
    // console.log("THIS.STATE:", this.state.isToggle)
   let Name = this.props.navigation.state.params.name
-  let posts = this.state.posts;
+  let posts = this.state.posts
+  let button_id = this.props.navigation.state.params.id
 
 
 
@@ -124,26 +141,30 @@ componentWillMount(){
      posts.map(post => {
        return (
          <Card key={post.id} >
-           <View >
-           <Image
-             style={{height: 40, width: 40}}
-             resizeMode="cover"
-             source={{ uri: post.image}}
-           />
-           <Text >Post: {post.post}</Text>
-           <Text >Day: {post.day}</Text>
-           <Text >Time: {post.time}</Text>
-           <Text >Status: {post.status}</Text>
-         </View>
+           {this.state.updateform && this.state.clickedId == post.id ? <UpdateForm post={post} /> :
+       <View>
+
+        <CardInfo post={post}/>
+
          <Button
              title='P'
              style={{height: 40, width: 40}}/>
          <Button
              title='U'
-             style={{height: 40, width: 40}} />
+             style={{height: 40, width: 40}}
+             onPress={
+               (e) => {
+                 this.setState({updateform: !this.state.updateform, clickedId : post.id})
+               }
+             }/>
         <Button
              title='D'
-             style={{height: 40, width: 40}} />
+             style={{height: 40, width: 40}}
+             onPress={
+               (e) => {this.deletePost(post.id, e)}
+             } />
+        </View>
+        }
        </Card>
        );
      })
