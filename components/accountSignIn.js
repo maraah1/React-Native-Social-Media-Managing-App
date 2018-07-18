@@ -7,8 +7,8 @@ import axios from 'axios'
 export default class Account extends Component {
 
  state = {
-   media_buttons_id : this.props.navigation.state.params.media_buttons_id,
-   user_id: this.props.navigation.state.params.user_id,
+   media_buttons_id : this.props.info.media_buttons_id,
+   user_id: this.props.info.user_id,
    media_username : '',
    media_password : ''
  }
@@ -22,11 +22,11 @@ export default class Account extends Component {
 
  render(){
    const {navigate} = this.props.navigation
-
+   console.log("NEW PROPS IN ACCOUNT SIGN IN:", this.props)
    return(
     <View>
 
-     <Text>{this.props.navigation.state.params.media_name}</Text>
+     <Text>{this.props.info.media_name}</Text>
 
      <TextInput
        style={{height: 40, borderColor: 'gray', borderWidth: 1}}
@@ -52,23 +52,9 @@ export default class Account extends Component {
        }
        title = "Sign In"
      />
-     <Button
-       raised
-       style={{width: 100, height: 100}}
-       onPress = {
-         () => navigate('Fourth', {})
-       }
-       title = "Back To Accounts"
-     />
 
-     <Button
-       raised
-       style={{width: 100, height: 100}}
-       onPress = {
-         () => navigate('First', {})
-       }
-       title = "Continue To Login"
-     />
+
+
  </View>
    )
  }

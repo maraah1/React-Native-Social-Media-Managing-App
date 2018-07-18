@@ -10,6 +10,9 @@ import ButtonsList from './components/buttonsList';
 import Account from './components/accountSignIn'
 import MyMenu from './components/MainPage'
 import AccountProfile from './components/accountProfile'
+import Tabs from './components/tabs';
+import SignInBase from './components/signInBase';
+
 
 
 const Navigation = createStackNavigator ({
@@ -17,17 +20,15 @@ const Navigation = createStackNavigator ({
   Second: {screen: MyMenu},
   Third: {screen: Register},
   Fourth: {screen: ButtonsList},
-  Fifth: {screen: Account},
-  Sixth: {screen: AccountProfile}
-})
+  Fifth: {screen: SignInBase},
+  Sixth: {screen: Tabs},
 
-// class App extends Component {
-//   render(){
-//     return(
-//       <MyMenu />
-//     )
-//   }
-// }
+},
+  {headerMode: 'none'}
+
+
+)
+
 
 
 

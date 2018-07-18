@@ -1,14 +1,16 @@
 import React, { Component} from 'react';
 import { DrawerActions } from 'react-navigation';
 import { StyleSheet, Text, TextInput, View, List, ListItem, Image, ScrollView } from 'react-native';
-import { Icon, Header, Left, Container } from 'native-base';
-import { Button, Card } from 'react-native-elements';
+import { Icon,  Left, Container } from 'native-base';
+import { Button, Card, Header} from 'react-native-elements';
 import axios from 'axios';
 import UpdateForm from './updateform'
 import CardInfo from './CardInfo'
 
 
+
 export default class AccountProfile extends Component {
+
 
 state = {
   isToggle : false,
@@ -17,9 +19,35 @@ state = {
   clickedId: '',
 }
 
+getMediaPosts(){
+  console.log('PROPS IN ACCT', this.props)
+  let id = this.props.navigation.state.params.media_id
+  axios.get(`http://localhost:8000/getposts/${id}`)
+  .then(results => {
+    console.log('FETCHED POSTS IN ACCOUNT PROFILE',results)
+    this.setState({posts : results.data})
+  }).catch(error => {
+    console.log(error)
+  })
+}
+
+componentDidMount(){
+  this.getMediaPosts()
+}
+
+componentDidUpdate(prevProps){
+  if(this.props.navigation.state.params.media_id !== prevProps.navigation.state.params.media_id){
+    console.log('I UPDATED!~~~~~~~~~~~~~')
+    this.getMediaPosts()
+  }
+}
+// componentWillReceiveProps(){
+//   this.getMediaPosts()
+// }
+
 handleSubmit = (e) => {
 let newState = {
-   media_buttons_id : button_id,
+   media_buttons_id :this.props.navigation.state.params.media_id,
    image : this.state.image,
    post : this.state.post,
    day: this.state.day,
@@ -36,6 +64,7 @@ let newState = {
 
 }
 
+
 deletePost = (id, e) => {
   axios.delete(`http://localhost:8000/delete/${id}`)
   .then(results => {
@@ -48,12 +77,10 @@ deletePost = (id, e) => {
   })
 }
 
-
-componentWillMount(){
-  let id = this.props.navigation.state.params.user_id
-  axios.get(`http://localhost:8000/getposts/${id}`)
-  .then(results => {
-    this.setState({posts : results.data})
+postToApp = (id, e) => {
+  axios(`http://localhost:8000/statuses/update/${id}`, id)
+  .then(postedTweet => {
+    console.log("POSTED TWEET:", postedTweet)
   }).catch(error => {
     console.log(error)
   })
@@ -64,7 +91,7 @@ componentWillMount(){
 
  render(){
    // console.log("GET POSTS:", this.state.posts)
-   //console.log("ACCOUNT PROFILE PROPS:", this.props )
+   // console.log("ACCOUNT PROFILE PROPS:", this.props.props.navigation.state.params.id )
    // console.log("THIS.STATE:", this.state.isToggle)
   let Name = this.props.navigation.state.params.name
   let posts = this.state.posts
@@ -76,7 +103,8 @@ componentWillMount(){
 
    return(
   <View>
-    <Header>
+
+    <Header outerContainerStyles={{ backgroundColor: '#8ee6e0' }} style={{height: 100}}>
       <Left>
         <Icon
           name="ios-menu"
@@ -86,7 +114,6 @@ componentWillMount(){
       <Text>{Name}</Text>
 
     </Header>
-
 
     {this.state.isToggle ?
       <View>
@@ -136,7 +163,7 @@ componentWillMount(){
    </View>
 :
 <ScrollView contentContainerStyle={{paddingVertical: 70}}>
- <View>
+
    {
      posts.map(post => {
        return (
@@ -147,11 +174,18 @@ componentWillMount(){
         <CardInfo post={post}/>
 
          <Button
+
              title='P'
-             style={{height: 40, width: 40}}/>
+             style={{height: 40, width: 40,  flexDirection: 'row'}}
+             onPress={
+               (e) => {this.postToApp(post.id, e)}
+             }
+           />
+
          <Button
+
              title='U'
-             style={{height: 40, width: 40}}
+             style={{height: 40, width: 40,  flexDirection: 'row'}}
              onPress={
                (e) => {
                  this.setState({updateform: !this.state.updateform, clickedId : post.id})
@@ -159,24 +193,31 @@ componentWillMount(){
              }/>
         <Button
              title='D'
-             style={{height: 40, width: 40}}
+             style={{height: 40, width: 40,  flexDirection: 'row'}}
              onPress={
                (e) => {this.deletePost(post.id, e)}
              } />
         </View>
         }
        </Card>
+
+
+
        );
      })
    }
 
      <Button
        title='Add Post'
+       style={styles.buttons}
+       buttonStyle={{
+          backgroundColor: "#8ee6e0",
+       }}
        onPress= {
          () => this.setState({isToggle : !this.state.isToggle})
        }
      />
-    </View>
+
   </ScrollView>
   }
 </View>
@@ -185,3 +226,14 @@ componentWillMount(){
 
 
 }
+
+
+const styles=StyleSheet.create({
+  buttons: {
+    marginTop: 10 + '%',
+    width: 40 + '%',
+    marginLeft: 30 + '%',
+    marginBottom : 50 + '%'
+
+  }
+})

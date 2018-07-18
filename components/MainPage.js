@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation'
 import Main from './main'
@@ -6,28 +7,13 @@ import Register from './register'
 import AccountProfile from './accountProfile'
 import SideBar from './sidebar'
 
-// export default class MainPage extends Component {
-//
-//  render(){
-//    return (
-//     <View>
-//      <Text>helloooo</Text>
-//    </View>
-//    )
-//  }
-//
-// }
-
-
-const MyMenu = createDrawerNavigator(
+const MenuNav = createDrawerNavigator(
   {
-    Home : Main,
-    Second : AccountProfile
+    Home : Main
   },
   {
     initialRouteName : 'Home',
     navigationOptions: {
-      header : null,
       headerStyle: {
         backgroundColor: 'transparent',
       },
@@ -41,6 +27,27 @@ const MyMenu = createDrawerNavigator(
 
   }
 )
-console.log("MY MENU PROPS:", this.props)
+
+class MyMenu extends React.Component {
+  static router = MenuNav.router;
+
+  state = {
+    accounts: []
+  }
+
+  getSideMenuInfo(id){
+    axios.get(`http://localhost:8000/sidemenu/${id}`)
+     .then(results => {
+       this.setState({
+         accounts : results.data
+       })
+     })
+  }
+
+  render() {
+    const { navigation } = this.props;
+    return <MenuNav navigation={navigation} screenProps={{getSideMenuInfo:this.getSideMenuInfo.bind(this), accounts: this.state.accounts} } />;
+  }
+}
 
 export default MyMenu

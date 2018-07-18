@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, Text, TextInput, View, TouchableHighlight } from 'react-native';
+import { Button, Card} from 'react-native-elements';
 import axios from 'axios'
 
 export default class Login extends Component {
+  static navigationOptions = {
+    headerStyle: {
+     display: 'none',
+   }
+  };
 
 
 
@@ -16,7 +21,7 @@ state= {
 
 handleSubmit = e => {
   console.log("handle submit called")
-  // fetchUser(this.state)
+
 axios.post(`http://localhost:8000/login`, this.state)
     .then((response)=>{
       console.log("response", response)
@@ -35,14 +40,18 @@ render(){
   const { navigate } = this.props.navigation;
   return (
     <View style={styles.container}>
-        <Text h1>Login</Text>
+
+      <View>
         <TextInput
           style={styles.textBox}
           autoCapitalize= 'none'
           onChangeText= {(email) => this.setState({email})}
           value={this.state.email}
+          // onPress={
+          //   () =>
+          // }
 
-        />
+        />,
         <TextInput
           style={styles.textBox}
           autoCapitalize= 'none'
@@ -50,22 +59,32 @@ render(){
           value={this.state.password}
 
         />
+      </View>
+
+
         <Button
+          style={styles.buttons}
+          buttonStyle={{
+             backgroundColor: "#5f66b8",
+          }}
           raised
-          style={{width: 100, height: 100}}
           onPress = {
             (e) => {this.handleSubmit()}
           }
           title = "Login"
         />
         <Button
-          raised
-          style={{width: 100, height: 100}}
+          style={styles.buttons}
+          color="#5f66b8"
+          buttonStyle={{
+             backgroundColor: "#8ee6e0",
+          }}
           onPress = {
-            () => navigate("Third", {})
+          () => navigate("Third", {})
           }
           title = "Register"
         />
+
     </View>
   )
 }
@@ -78,17 +97,57 @@ render(){
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 50 + '%',
-    alignItems: 'center',
+    flex : 1,
+    paddingTop: 150 ,
     justifyContent: 'center',
+    backgroundColor: '#8ee6e0'
+    // alignItems: 'center',
+
+
   },
 
+  text: {
+    fontSize: 30,
+    textAlign : 'center',
+    color : 'white',
+    fontWeight: 'bold',
+    shadowOffset:{  width: 0,  height: 0,  },
+    shadowOpacity: 0
+  },
   textBox: {
     height: 20 + '%',
-    width: 45 + '%',
-    borderWidth: 1,
-    borderColor: 'black',
-    margin: 1 + '%'
+    width: 70 + '%',
+    marginLeft : 15 + '%',
+    marginBottom : 20,
+    borderBottomWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    shadowOffset:{  width: 3,  height: 3,  },
+    shadowColor: 'grey',
+    shadowOpacity: 0.3
 
-  }
+  },
+
+  textBoxTouch: {
+    height: 20 + '%',
+    width: 70 + '%',
+    marginLeft : 15 + '%',
+    marginBottom : 20,
+    borderBottomWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    shadowOffset:{  width: 5,  height: 5,  },
+    shadowColor: 'grey',
+    shadowOpacity: 0.6
+
+  },
+   buttons: {
+     width: 40 + '%',
+     marginLeft: 30 + '%',
+
+   },
+
+   textsView: {
+     marginBottom: 0
+   }
 });
