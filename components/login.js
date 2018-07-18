@@ -26,11 +26,11 @@ axios.post(`http://localhost:8000/login`, this.state)
     .then((response)=>{
       console.log("response", response)
       if(response === 'false' || response === null){
-      navigate('First', {})
+      navigate('Second', {})
     }else{
       const { navigate } = this.props.navigation;
       console.log("login response:", response.data)
-      navigate('Second', {user : response.data})
+      navigate('Third', {user : response.data})
     }
 
  })
@@ -44,19 +44,19 @@ render(){
       <View>
         <TextInput
           style={styles.textBox}
+          placeholder="Enter email"
           autoCapitalize= 'none'
           onChangeText= {(email) => this.setState({email})}
           value={this.state.email}
-          // onPress={
-          //   () =>
-          // }
 
         />,
         <TextInput
           style={styles.textBox}
+          placeholder='Enter Password'
           autoCapitalize= 'none'
           onChangeText= {(password) => this.setState({password})}
           value={this.state.password}
+          secureTextEntry={true}
 
         />
       </View>
@@ -80,7 +80,7 @@ render(){
              backgroundColor: "#8ee6e0",
           }}
           onPress = {
-          () => navigate("Third", {})
+          () => navigate("Fourth", {})
           }
           title = "Register"
         />

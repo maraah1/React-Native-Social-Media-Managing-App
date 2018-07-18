@@ -17,7 +17,7 @@ axios.post(`http://localhost:8000/register`, this.state)
    .then(response => {
      console.log("register response:", response.data)
      const { navigate } = this.props.navigation
-     navigate('Fourth', { user : response.data})
+     navigate('Fifth', { user : response.data})
  })
 }
 
@@ -37,7 +37,7 @@ render(){
           <Icon
           name='keyboard-arrow-left'
           onPress = {
-            () => navigate('First', {})
+            () => navigate('Second', {})
           }
         />
       }
@@ -70,6 +70,7 @@ render(){
       autoCapitalize= 'none'
       placeholder= "Enter Password"
       value={this.state.password}
+      secureTextEntry={true}
     />
 </View>
 
@@ -93,7 +94,7 @@ render(){
 
 
 
-styles=StyleSheet.create({
+const styles= StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white'

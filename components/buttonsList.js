@@ -26,8 +26,9 @@ render(){
     let listOfButtons = this.state.buttons ? this.state.buttons.map( button =>
 
     <TouchableOpacity
+      key={button.id}
       onPress={
-      () =>  navigate('Fifth', {
+      () =>  navigate('Sixth', {
               user_id : this.props.navigation.state.params.user.id,
               media_buttons_id : button.id,
               media_name: button.name,
@@ -35,7 +36,7 @@ render(){
           })
     }>
 
-    <Image style={{height : 50, width: 50}} source={{uri : button.img_url}} />
+    <Image  style={styles.buttons} source={{uri : button.img_url}} />
 
 
     </TouchableOpacity>
@@ -52,14 +53,7 @@ render(){
        <Header
          outerContainerStyles={{ backgroundColor: '#8ee6e0' }}
          centerComponent={{ text: 'SoMa', style: { color: '#fff' } }}
-         leftComponent={
-           <Icon
-           name='keyboard-arrow-left'
-           onPress = {
-             () => navigate('Third', {})
-           }
-         />
-       }
+         
      />
 
    <View style={styles.buttonsList}>
@@ -76,15 +70,16 @@ render(){
 
 const styles= StyleSheet.create({
   buttonsList : {
-    marginTop: 50 + '%',
+    marginTop: 70 + '%',
     padding: 0.2,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
   },
   buttons : {
-    padding: 3,
-    width: 200
+    height: 65,
+    width: 65,
+    margin: 10
   },
    text: {
      fontSize: 30,

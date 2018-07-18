@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
-import {Text, TextInput, View, Image } from 'react-native';
+import {Text, TextInput, View, Image, Modal } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios'
 
 
 export default class UpdateForm extends Component {
 
-state = {
-  media_buttons_id : this.props.post.media_buttons_id,
-  image : this.props.post.image,
-  post: this.props.post.post,
-  day: this.props.post.day,
-  time: this.props.post.time
-
+state={
+  isVisible: true
 }
 
 handleSubmit = (id, e) => {
+  newState = {
+    media_buttons_id : this.props.post.media_buttons_id,
+    image : this.state.image,
+    post: this.state.post,
+    day: this.state.day,
+    time: this.state.time
 
-  axios.put(`http://localhost:8000/update/${id}`, this.state)
+  }
+  axios.put(`http://localhost:8000/update/${id}`, newState)
   .then(results => {
     console.log(results)
   }).catch(error => {
@@ -30,6 +32,13 @@ handleSubmit = (id, e) => {
     console.log("UPDATE FORM PROPS:", this.props)
     return(
       <View>
+        <Modal animationType="slide"
+          transparent={false}
+          visible={this.state.isVisible}
+          onRequestClose={() => {
+            alert('Modal has been closed.');
+          }}>
+
         <TextInput
           style={{height : 100, width: 100}}
           image={<Image
@@ -58,10 +67,12 @@ handleSubmit = (id, e) => {
           style={{height: 100, width: 100}}
           title='Update'
           onPress={
-            (e) => {this.handleSubmit(this.props.post.id, e)}
+            (e) => {this.handleSubmit(this.props.post.id, e), this.setState({isVisible: false})}
           }
 
         />
+
+      </Modal>
       </View>
     )
   }

@@ -1,8 +1,9 @@
 import React, { Component} from 'react';
 import { DrawerActions } from 'react-navigation';
-import { StyleSheet, Text, TextInput, View, List, ListItem, Image, ScrollView } from 'react-native';
-import { Icon,  Left, Container } from 'native-base';
-import { Button, Card, Header} from 'react-native-elements';
+import { StyleSheet, Text, TextInput, View, List, ListItem, Image, ScrollView, TouchableOpacity } from 'react-native';
+import { Left, Container, Center } from 'native-base';
+import { Button, Card, Header, Icon} from 'react-native-elements';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import axios from 'axios';
 import UpdateForm from './updateform'
 import CardInfo from './CardInfo'
@@ -17,6 +18,7 @@ state = {
   posts : [],
   updateform: false,
   clickedId: '',
+  isVisible: false
 }
 
 getMediaPosts(){
@@ -41,9 +43,7 @@ componentDidUpdate(prevProps){
     this.getMediaPosts()
   }
 }
-// componentWillReceiveProps(){
-//   this.getMediaPosts()
-// }
+
 
 handleSubmit = (e) => {
 let newState = {
@@ -52,6 +52,7 @@ let newState = {
    post : this.state.post,
    day: this.state.day,
    time: this.state.time,
+   fulldate: this.state.fulldate,
    status: 'pending'
  }
  axios.post(`http://localhost:8000/posts`, newState).then((results) => {
@@ -78,15 +79,27 @@ deletePost = (id, e) => {
 }
 
 postToApp = (id, e) => {
-  axios(`http://localhost:8000/statuses/update/${id}`, id)
+console.log("POST HIT", id)
+  axios.patch(`http://localhost:8000/statuses/update/${id}`)
   .then(postedTweet => {
     console.log("POSTED TWEET:", postedTweet)
   }).catch(error => {
+    console.log("HIT AGAIN")
     console.log(error)
   })
 }
 
 
+_showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+ _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+ _handleDatePicked = (date) => {
+   console.log('A date has been picked: ', date.getTime());
+   this.setState({time: `${date.getHours()}:${date.getMinutes()}`, day: `${date.getMonth()}/ ${date.getDate()}`, fulldate: date})
+
+   this._hideDateTimePicker();
+ };
 
 
  render(){
@@ -96,29 +109,42 @@ postToApp = (id, e) => {
   let Name = this.props.navigation.state.params.name
   let posts = this.state.posts
   let button_id = this.props.navigation.state.params.id
-
-
+  let image = this.props.navigation.state.params.image
+  let {navigate} = this.props.navigation
 
  // console.log("LIST OF POSTS:", listOfPosts)
 
    return(
   <View>
 
-    <Header outerContainerStyles={{ backgroundColor: '#8ee6e0' }} style={{height: 100}}>
-      <Left>
-        <Icon
-          name="ios-menu"
-          onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
-        />
-      </Left>
-      <Text>{Name}</Text>
+    <Header
+      outerContainerStyles={{ backgroundColor: 'black' }} style={{height: 150}}
+      rightComponent={
+        <TouchableOpacity onPress={() => this.setState({isToggle : !this.state.isToggle}) }>
+        <Text style={styles.text}>{Name}</Text>
+        </TouchableOpacity>
+      }
 
-    </Header>
+      leftComponent={
+        <Icon
+        name="menu"
+        color='#8ee6e0'
+        onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
+      />
+    }
+       // rightComponent={<Image
+       //    style={{width: 50, height: 50}}
+       //    source={{uri: image}}
+       //  />}
+    />
+
+
 
     {this.state.isToggle ?
-      <View>
+  <View>
+    <View style={styles.inputs}>
      <TextInput
-       style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+       style={styles.textBox}
        autoCapitalize= 'none'
        placeholder='Image'
        onChangeText= {(image) => this.setState({image})}
@@ -127,7 +153,7 @@ postToApp = (id, e) => {
      />
 
      <TextInput
-       style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+       style={styles.textBox}
        autoCapitalize= 'none'
        placeholder='Post'
        onChangeText= {(post) => this.setState({post})}
@@ -135,27 +161,26 @@ postToApp = (id, e) => {
 
      />
 
-     <TextInput
-       style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-       autoCapitalize= 'none'
-       placeholder='Day'
-       onChangeText= {(day) => this.setState({day})}
-       value={this.state.day}
+     <TouchableOpacity onPress={this._showDateTimePicker} >
+          <Text>Select Day and Time</Text>
+          <Text>{this.state.day + ' - ' + this.state.time}</Text>
+        </TouchableOpacity>
+        <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+          mode='datetime'
+        />
 
-     />
-
-
-     <TextInput
-       style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-       autoCapitalize= 'none'
-       placeholder='Time'
-       onChangeText= {(time) => this.setState({time})}
-       value={this.state.time}
-
-     />
+ </View>
 
      <Button
+       style={styles.postButtons}
+       color='#5f66b8'
        title='Post'
+       buttonStyle={{
+          backgroundColor: "#8ee6e0",
+       }}
        onPress= {
          (e) => {this.handleSubmit()}
        }
@@ -169,36 +194,47 @@ postToApp = (id, e) => {
        return (
          <Card key={post.id} >
            {this.state.updateform && this.state.clickedId == post.id ? <UpdateForm post={post} /> :
-       <View>
+<View style={{flexDirection: 'row'}}>
+     <View style={{flexDirection: 'column', alignItems: 'flex-start', flex: 1}}>
+        <CardInfo post={post} />
+     </View>
 
-        <CardInfo post={post}/>
-
+  <View style={styles.littleButtonsContainer}>
          <Button
-
-             title='P'
-             style={{height: 40, width: 40,  flexDirection: 'row'}}
+             buttonStyle={{ backgroundColor: "#8ee6e0",}}
+             color="#5f66b8"
+             title='Post'
+             style={styles.littleButtons}
              onPress={
                (e) => {this.postToApp(post.id, e)}
              }
            />
 
          <Button
-
-             title='U'
-             style={{height: 40, width: 40,  flexDirection: 'row'}}
+             buttonStyle={{ backgroundColor: "#dbdbd0",}}
+             color='black'
+             title='Update'
+             style={styles.littleButtons}
              onPress={
                (e) => {
                  this.setState({updateform: !this.state.updateform, clickedId : post.id})
                }
              }/>
         <Button
-             title='D'
-             style={{height: 40, width: 40,  flexDirection: 'row'}}
+             buttonStyle={{ backgroundColor: "#e04843",}}
+             title='Delete'
+             style={styles.littleButtons}
              onPress={
                (e) => {this.deletePost(post.id, e)}
              } />
-        </View>
-        }
+
+     </View>
+
+  </View>
+
+
+
+   }
        </Card>
 
 
@@ -209,6 +245,7 @@ postToApp = (id, e) => {
 
      <Button
        title='Add Post'
+       color="#5f66b8"
        style={styles.buttons}
        buttonStyle={{
           backgroundColor: "#8ee6e0",
@@ -233,7 +270,59 @@ const styles=StyleSheet.create({
     marginTop: 10 + '%',
     width: 40 + '%',
     marginLeft: 30 + '%',
-    marginBottom : 50 + '%'
+    marginBottom : 50 + '%',
+
+  },
+  littleButtonsContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    flex: 1
+  },
+
+  littleButtons : {
+    height: 40 ,
+    width: 80 ,
+    margin: 1
+  },
+  text : {
+    textAlign: 'center',
+    margin: 0,
+    padding: 0,
+    fontWeight: 'bold',
+    fontSize: 20,
+    color: '#8ee6e0'
+  },
+  container: {
+    flex: 1,
+    backgroundColor: 'white'
+  },
+
+  textBox: {
+    height: 50 ,
+    width: 300 ,
+    margin: 10,
+    borderBottomWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    shadowOffset:{  width: 3,  height: 3,  },
+    shadowColor: 'grey',
+    shadowOpacity: 0.3
+
+  },
+
+  inputs: {
+    marginTop: 100,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  postButtons: {
+    width: 40 + '%',
+    marginLeft: 30 + '%',
+    marginBottom : 50 + '%',
+    marginTop: 15 + '%'
 
   }
+
+
 })
