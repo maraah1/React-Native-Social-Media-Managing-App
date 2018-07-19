@@ -29,7 +29,8 @@ render(){
          media_id : account.media_buttons_id,
          user_id : account.user_id,
          name: account.name,
-         image: account.img_url
+         image: account.img_url,
+         status: account.status
        })
      }
    />)
@@ -40,7 +41,13 @@ render(){
     <View>
       <Header
         outerContainerStyles={{ backgroundColor: 'black', height : 100, marginBottom : 20 }}
-        centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+        centerComponent={
+          <Image
+         style={{height: 100, width: 100, marginTop: 1000}}
+         source={require('/Users/maraahlee/testing/newAppIcon.png')}
+        />
+      }
+
        />
 
       {listOfAccounts}

@@ -104,11 +104,12 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
  render(){
    // console.log("GET POSTS:", this.state.posts)
-   // console.log("ACCOUNT PROFILE PROPS:", this.props.props.navigation.state.params.id )
+   console.log("ACCOUNT PROFILE PROPS:", this.props.navigation.state.params.id)
    // console.log("THIS.STATE:", this.state.isToggle)
   let Name = this.props.navigation.state.params.name
   let posts = this.state.posts
   let button_id = this.props.navigation.state.params.id
+  let status = this.props.navigation.state.params.status
   let image = this.props.navigation.state.params.image
   let {navigate} = this.props.navigation
 
@@ -132,10 +133,6 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
         onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
       />
     }
-       // rightComponent={<Image
-       //    style={{width: 50, height: 50}}
-       //    source={{uri: image}}
-       //  />}
     />
 
 
@@ -162,8 +159,10 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
      />
 
      <TouchableOpacity onPress={this._showDateTimePicker} >
-          <Text>Select Day and Time</Text>
+        <Text style={styles.time}>Select Day and Time</Text>
+        {this.state.day && this.state.time ?
           <Text>{this.state.day + ' - ' + this.state.time}</Text>
+        : null}
         </TouchableOpacity>
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
@@ -200,15 +199,8 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
      </View>
 
   <View style={styles.littleButtonsContainer}>
-         <Button
-             buttonStyle={{ backgroundColor: "#8ee6e0",}}
-             color="#5f66b8"
-             title='Post'
-             style={styles.littleButtons}
-             onPress={
-               (e) => {this.postToApp(post.id, e)}
-             }
-           />
+
+
 
          <Button
              buttonStyle={{ backgroundColor: "#dbdbd0",}}
@@ -322,6 +314,18 @@ const styles=StyleSheet.create({
     marginBottom : 50 + '%',
     marginTop: 15 + '%'
 
+  },
+
+  holder : {
+    height: 38,
+    width: 79,
+    marginRight: 16,
+    backgroundColor: '#8ee6e0'
+  },
+
+  time: {
+    fontSize: 20,
+    fontWeight: 'bold'
   }
 
 

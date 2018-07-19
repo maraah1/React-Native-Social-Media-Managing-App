@@ -14,16 +14,18 @@ import Tabs from './components/tabs';
 import SignInBase from './components/signInBase';
 import Tiles from './components/tile'
 import Analytics from './components/analytics'
+import CardInfo from './components/CardInfo'
 
 
 const Navigation = createStackNavigator ({
-  First: {screen : Analytics},
+  First: {screen : Tiles},
   Second: {screen: Login},
   Third: {screen: MyMenu},
   Fourth: {screen: Register},
   Fifth: {screen: ButtonsList},
   Sixth: {screen: Account},
   Seventh: {screen: Tabs},
+  Eighth: {screen: CardInfo}
 
 },
   {headerMode: 'none'}

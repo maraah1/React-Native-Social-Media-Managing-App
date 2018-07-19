@@ -32,7 +32,7 @@ render(){
    </View>
 
    <View style={styles.sections}>
-   <Icon name='notifications' size={30} /> <Text  style={styles.text} >{this.props.post.day}</Text>
+   <Icon name='notifications' size={30} /> <Text  style={styles.sectionss} >{this.props.post.status}</Text>
    </View>
 
   </View>
@@ -48,8 +48,13 @@ const styles=StyleSheet.create({
     flexDirection: 'row',
     margin: 2
   },
+  sectionss: {
+    paddingLeft: 10 + '%',
+    fontSize: 20,
+    color: '#8ee6e0'
+  },
   text:{
     paddingLeft: 10 + '%',
-    fontSize: 20 
+    fontSize: 20
   }
 })

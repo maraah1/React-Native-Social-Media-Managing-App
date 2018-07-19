@@ -30,7 +30,7 @@ console.log("ACCOUNT SIGN IN PROPS:", this.props)
 <View style={{backgroundColor: 'white', flex: 1}}>
 
      <Header
-       outerContainerStyles={{ backgroundColor: '#5f66b8'}}
+       outerContainerStyles={{ backgroundColor: 'black'}}
        centerComponent={<Text style={styles.text}>{name}</Text> }
        leftComponent={
          <Icon

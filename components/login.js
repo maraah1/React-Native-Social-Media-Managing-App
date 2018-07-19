@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableHighlight, Image} from 'react-native';
 import { Button, Card} from 'react-native-elements';
 import axios from 'axios'
 
@@ -41,7 +41,9 @@ render(){
   return (
     <View style={styles.container}>
 
-      <View>
+      <Image style={{height: 300, width: 300, marginLeft: 40}} source={require('/Users/maraahlee/testing/whiteIcon.png')} />
+
+      <View style={{marginBottom: 50}}>
         <TextInput
           style={styles.textBox}
           placeholder="Enter email"
@@ -59,7 +61,7 @@ render(){
           secureTextEntry={true}
 
         />
-      </View>
+
 
 
         <Button
@@ -84,7 +86,7 @@ render(){
           }
           title = "Register"
         />
-
+     </View>
     </View>
   )
 }
@@ -98,9 +100,9 @@ render(){
 const styles = StyleSheet.create({
   container: {
     flex : 1,
-    paddingTop: 150 ,
+    paddingTop: 70 ,
     justifyContent: 'center',
-    backgroundColor: '#8ee6e0'
+    backgroundColor: 'white'
     // alignItems: 'center',
 
 
@@ -115,10 +117,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0
   },
   textBox: {
-    height: 20 + '%',
+    height: 15 + '%',
     width: 70 + '%',
     marginLeft : 15 + '%',
-    marginBottom : 20,
+    marginBottom : 10,
     borderBottomWidth: 1,
     borderColor: 'white',
     backgroundColor: 'white',
@@ -128,22 +130,10 @@ const styles = StyleSheet.create({
 
   },
 
-  textBoxTouch: {
-    height: 20 + '%',
-    width: 70 + '%',
-    marginLeft : 15 + '%',
-    marginBottom : 20,
-    borderBottomWidth: 1,
-    borderColor: 'white',
-    backgroundColor: 'white',
-    shadowOffset:{  width: 5,  height: 5,  },
-    shadowColor: 'grey',
-    shadowOpacity: 0.6
-
-  },
    buttons: {
-     width: 40 + '%',
-     marginLeft: 30 + '%',
+     width: 30 + '%',
+     marginLeft: 35 + '%',
+     margin: 5
 
    },
 

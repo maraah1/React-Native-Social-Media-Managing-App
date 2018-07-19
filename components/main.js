@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import axios from 'axios';
 import { createDrawerNavigator, DrawerItems, DrawerActions } from 'react-navigation';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, AsyncStorage, Image } from 'react-native';
 import { Button,  Header, Icon } from 'react-native-elements';
 import Register from './register';
 
@@ -36,17 +36,34 @@ render(){
          <Header
            style={{height : 100}}
            outerContainerStyles={{ backgroundColor: 'black', height: 100 }}
+           centerComponent={
+             <Image
+            style={{height: 100, width: 100, flex:1}}
+            source={require('/Users/maraahlee/testing/newAppIcon.png')}
+           />
+         }
+           rightComponent={
+             <Icon
+             name="settings"
+             color='#8ee6e0'
+             size={30}
+             onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
+           />
+           }
            leftComponent={
              <Icon
              name="menu"
              color='#8ee6e0'
+             size={30}
              onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
            />
            }
          />
 
 
-        <Text style={styles.text}>Welcome {name}</Text>
+        <Text style={styles.text}>Welcome</Text>
+
+        <Text style={styles.textt}>{name}!</Text>
 
       </View>
 
@@ -62,6 +79,12 @@ const styles = StyleSheet.create({
 
  text: {
    marginTop: 200,
+   textAlign: 'center',
+   fontSize: 50,
+   color: '#5f66b8'
+ },
+ textt: {
+   marginTop: 15,
    textAlign: 'center',
    fontSize: 50,
    color: '#5f66b8'

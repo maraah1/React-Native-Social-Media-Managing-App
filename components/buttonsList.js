@@ -51,9 +51,23 @@ render(){
      <View>
 
        <Header
-         outerContainerStyles={{ backgroundColor: '#8ee6e0' }}
-         centerComponent={{ text: 'SoMa', style: { color: '#fff' } }}
-         
+         outerContainerStyles={{ backgroundColor: 'black' }}
+         centerComponent={
+           <Image
+            style={{height: 100, width: 100, alignItems: 'center', flex: 1}}
+            source={require('/Users/maraahlee/testing/newAppIcon.png')}
+           />
+         }
+         leftComponent={
+           <Icon
+           name='keyboard-arrow-left'
+           color="#8ee6e0"
+           onPress = {
+             () => navigate('Fourth', {})
+           }
+         />
+         }
+
      />
 
    <View style={styles.buttonsList}>

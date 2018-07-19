@@ -12,8 +12,8 @@ render(){
 
   <View style={styles.view} >
 
-    <TouchableOpacity onPress={ () => navigate('Second', {})}>
-      <Image style={{height : 500, width: 500}} source={require('/Users/maraahlee/testing/Untitled.png')} />
+    <TouchableOpacity onPress={ () => navigate('Second', {})} style={{alignItems: 'center'}}>
+      <Image style={{height : 500, width: 500, margin: 100, }} source={require('/Users/maraahlee/testing/newAppIcon.png')} />
     </TouchableOpacity>
 
   </View>
@@ -28,7 +28,7 @@ render(){
 styles=StyleSheet.create({
   view: {
     flex: 1,
-    backgroundColor:'purple'
+    backgroundColor:'black'
 
   }
 })

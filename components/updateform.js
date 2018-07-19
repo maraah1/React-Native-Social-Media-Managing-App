@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Text, TextInput, View, Image, Modal } from 'react-native';
+import {Text, TextInput, View, Image, Modal, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
 import axios from 'axios'
 
@@ -30,17 +30,18 @@ handleSubmit = (id, e) => {
 
   render(){
     console.log("UPDATE FORM PROPS:", this.props)
+    const {navigate} = this.props.navigation
     return(
       <View>
-        <Modal animationType="slide"
+        {/* <Modal animationType="slide"
           transparent={false}
           visible={this.state.isVisible}
           onRequestClose={() => {
             alert('Modal has been closed.');
-          }}>
+          }}> */}
 
         <TextInput
-          style={{height : 100, width: 100}}
+          style={styles.inputs}
           image={<Image
               style={{height: 100, width: 100}}
               source={{uri : this.props.post.image}}
@@ -48,32 +49,53 @@ handleSubmit = (id, e) => {
           onChangeText={(image) => this.setState({image})}
         />
         <TextInput
-          style={{height : 100, width: 100}}
+          style={styles.inputs}
           placeholder={this.props.post.post}
           onChangeText={(post) => this.setState({post})}
         />
         <TextInput
-          style={{height : 100, width: 100}}
+          style={styles.input}
           placeholder={this.props.post.day}
           onChangeText={(day) => this.setState({day})}
         />
         <TextInput
-          style={{height : 100, width: 100}}
+          style={styles.inputs}
           placeholder={this.props.post.time}
           onChangeText={(time) => this.setState({time})}
         />
 
         <Button
-          style={{height: 100, width: 100}}
+          buttonStyle={{ backgroundColor: "#dbdbd0",}}
+          color='black'
+          style={styles.littleButtons}
           title='Update'
           onPress={
-            (e) => {this.handleSubmit(this.props.post.id, e), this.setState({isVisible: false})}
+            (e) => {this.handleSubmit(this.props.post.id, e)}
           }
 
         />
 
-      </Modal>
+      {/* </Modal> */}
       </View>
     )
   }
 }
+
+
+const styles= StyleSheet.create({
+  inputs : {
+    height: 100,
+    width: 100,
+    borderBottomWidth: 1,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    shadowOffset:{  width: 3,  height: 3,  },
+    shadowColor: 'grey',
+    shadowOpacity: 0.3
+  },
+  littleButtons : {
+    height: 40 ,
+    width: 80 ,
+    margin: 1
+  }
+})
