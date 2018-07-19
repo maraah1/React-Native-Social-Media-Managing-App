@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, TextInput, View, AsyncStorage, Image} from 'react-native';
-import { Button, Header } from 'react-native-elements';
+import { StyleSheet, Text, TextInput, View, AsyncStorage, Image, TouchableOpacity} from 'react-native';
+import { Button, Header, Icon } from 'react-native-elements';
 import axios from 'axios';
 
 export default class SideBar extends Component {
@@ -11,20 +11,25 @@ export default class SideBar extends Component {
 
 
 render(){
+ console.log("SIDEBAR PROPS FROM LOGIN:", this.props.navigation.state.params.user.name)
  console.log("STATE.ACC:===> \n", this.props.screenProps.accounts)
+
   const { navigate } = this.props.navigation;
+  let name = this.props.navigation.state.params.user.name
 
   let listOfAccounts =  this.props.screenProps.accounts.map(account =>
-    <Button
-     raised
-     style={styles.button}
-     color="#5f66b8"
-     key={account.media_buttons_id}
-     title={account.name}
-     buttonStyle={{
-       backgroundColor: '#8ee6e0'
-     }}
-     onPress={
+    // <Button
+    //  raised
+    //  style={styles.button}
+    //  color="#5f66b8"
+    //  key={account.media_buttons_id}
+    //  title={account.name}
+    //  buttonStyle={{
+    //    backgroundColor: '#8ee6e0'
+    //  }}/>
+   <TouchableOpacity
+      key={account.media_buttons_id}
+      onPress={
        () => navigate('POSTS', {
          media_id : account.media_buttons_id,
          user_id : account.user_id,
@@ -32,23 +37,43 @@ render(){
          image: account.img_url,
          status: account.status
        })
-     }
-   />)
+     } >
+     <Image  style={styles.buttons} source={{uri : account.img_url}} />
+   </TouchableOpacity>
+   )
 
   // console.log('MAP STATE.ACC ====>', listOfAccounts)
 
   return (
     <View>
-      <Header
-        outerContainerStyles={{ backgroundColor: 'black', height : 100, marginBottom : 20 }}
-        centerComponent={
-          <Image
-         style={{height: 100, width: 100, marginTop: 1000}}
-         source={require('/Users/maraahlee/testing/newAppIcon.png')}
-        />
-      }
-
-       />
+      <View style={styles.view}>
+         <Header
+           style={{height : 100}}
+           outerContainerStyles={{ backgroundColor: 'black', height: 100 }}
+           centerComponent={
+             <Image
+            style={{height: 100, width: 100, flex:1}}
+            source={require('/Users/maraahlee/testing/newAppIcon.png')}
+          />
+         }
+           rightComponent={
+             <Icon
+             name="settings"
+             color='#8ee6e0'
+             size={20}
+             onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
+           />
+           }
+           leftComponent={
+             <Icon
+             name="menu"
+             color='#8ee6e0'
+             size={30}
+             onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
+           />
+           }
+         />
+   <Text style={styles.text}>Welcome {name}!</Text>
 
       {listOfAccounts}
 
@@ -58,6 +83,7 @@ render(){
     />
 
     </View>
+  </View>
   )
 }
 
@@ -75,7 +101,18 @@ const styles = StyleSheet.create({
     left: 90
   },
 
-  button: {
-    margin: 10,
+  buttons : {
+    height: 80,
+    width: 80,
+    margin: 5,
+    marginLeft: 150,
+    marginTop: 40
+
+
+  },
+  text: {
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: 'black'
   }
 })

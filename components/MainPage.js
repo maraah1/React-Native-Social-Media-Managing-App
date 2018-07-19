@@ -9,7 +9,7 @@ import SideBar from './sidebar'
 
 const MenuNav = createDrawerNavigator(
   {
-    Home : Main
+    Home : SideBar
   },
   {
     initialRouteName : 'Home',
@@ -22,7 +22,7 @@ const MenuNav = createDrawerNavigator(
         fontWeight: 'bold',
       },
     },
-    contentComponent : SideBar,
+    contentComponent : Main,
     drawerWidth : 200
 
   }

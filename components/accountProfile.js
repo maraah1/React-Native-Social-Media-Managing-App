@@ -128,9 +128,11 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
       leftComponent={
         <Icon
-        name="menu"
-        color='#8ee6e0'
-        onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
+        name='keyboard-arrow-left'
+        color="#8ee6e0"
+        onPress = {
+          () => navigate('Third', {})
+        }
       />
     }
     />
