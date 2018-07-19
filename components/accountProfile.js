@@ -69,7 +69,7 @@ let newState = {
 deletePost = (id, e) => {
   axios.delete(`http://localhost:8000/delete/${id}`)
   .then(results => {
-    console.log(results)
+    console.log(results.data)
     this.setState({
       posts: [...results.data]
     })
