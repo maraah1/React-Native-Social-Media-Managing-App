@@ -60,6 +60,7 @@ console.log("ACCOUNT SIGN IN PROPS:", this.props)
        autoCapitalize= 'none'
        placeholder= "Password"
        value={this.state.media_password}
+       secureTextEntry={true}
      />
 
 

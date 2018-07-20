@@ -69,7 +69,6 @@ render(){
              name="menu"
              color='#8ee6e0'
              size={30}
-             onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
            />
            }
          />
@@ -111,8 +110,14 @@ const styles = StyleSheet.create({
 
   },
   text: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: 'black'
+    borderBottomWidth : 2,
+    borderColor: '#8ee6e0',
+    fontSize: 30,
+    color: 'black',
+    textAlign: 'center',
+    shadowOffset:{  width: 3,  height: 3,  },
+    shadowColor: 'grey',
+    shadowOpacity: 0.3
+
   }
 })

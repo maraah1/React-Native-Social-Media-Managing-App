@@ -36,34 +36,12 @@ render(){
          <Header
            style={{height : 100}}
            outerContainerStyles={{ backgroundColor: 'black', height: 100 }}
-           centerComponent={
-             <Image
-            style={{height: 100, width: 100, flex:1}}
-            source={require('/Users/maraahlee/testing/newAppIcon.png')}
-           />
-         }
-           rightComponent={
-             <Icon
-             name="settings"
-             color='#8ee6e0'
-             size={30}
-             onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
-           />
-           }
-           leftComponent={
-             <Icon
-             name="menu"
-             color='#8ee6e0'
-             size={30}
-             onPress={() => this.props.navigation.dispatch(DrawerActions.toggleDrawer())}
-           />
-           }
          />
 
-
-        <Text style={styles.text}>Welcome</Text>
-
-        <Text style={styles.textt}>{name}!</Text>
+         <Image
+        style={{height: 100, width: 100, flex:1}}
+        source={require('/Users/maraahlee/testing/newAppIcon.png')}
+        />
 
       </View>
 
@@ -73,7 +51,7 @@ render(){
 
 const styles = StyleSheet.create({
   view: {
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     flex: 1
   },
 

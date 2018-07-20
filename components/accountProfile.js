@@ -128,7 +128,7 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
       leftComponent={
         <Icon
-        name='keyboard-arrow-left'
+        name='home'
         color="#8ee6e0"
         onPress = {
           () => navigate('Third', {})
