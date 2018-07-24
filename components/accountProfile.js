@@ -21,6 +21,14 @@ state = {
   isVisible: false
 }
 
+updateToggle = (postId) => {
+  this.setState({updateform: !this.state.updateform, clickedId: postId})
+}
+
+// settingState = (newState) => {
+//   this.setState({posts : newState})
+// }
+
 getMediaPosts(){
   console.log('PROPS IN ACCT', this.props)
   let id = this.props.navigation.state.params.media_id
@@ -67,9 +75,10 @@ let newState = {
 
 
 deletePost = (id, e) => {
-  axios.delete(`http://localhost:8000/delete/${id}`)
+  let mediaId = this.props.navigation.state.params.user_id
+  axios.delete(`http://localhost:8000/delete/${mediaId}/${id}`)
   .then(results => {
-    console.log(results.data)
+    console.log("DELETE RESULTS:", results.data)
     this.setState({
       posts: [...results.data]
     })
@@ -104,11 +113,11 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
  render(){
    // console.log("GET POSTS:", this.state.posts)
-   console.log("ACCOUNT PROFILE PROPS:", this.props.navigation.state.params.id)
+   console.log("ACCOUNT PROFILE PROPS:", this.props.navigation.state.params.user_id)
    // console.log("THIS.STATE:", this.state.isToggle)
   let Name = this.props.navigation.state.params.name
   let posts = this.state.posts
-  let button_id = this.props.navigation.state.params.id
+  let button_id = this.props.navigation.state.params.media_id
   let status = this.props.navigation.state.params.status
   let image = this.props.navigation.state.params.image
   let {navigate} = this.props.navigation
@@ -121,6 +130,7 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
     <Header
       outerContainerStyles={{ backgroundColor: 'black' }} style={{height: 150}}
       rightComponent={
+
         <TouchableOpacity onPress={() => this.setState({isToggle : !this.state.isToggle}) }>
         <Text style={styles.text}>{Name}</Text>
         </TouchableOpacity>
@@ -166,6 +176,7 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
           <Text>{this.state.day + ' - ' + this.state.time}</Text>
         : null}
         </TouchableOpacity>
+
         <DateTimePicker
           isVisible={this.state.isDateTimePickerVisible}
           onConfirm={this._handleDatePicked}
@@ -194,15 +205,16 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
      posts.map(post => {
        return (
          <Card key={post.id} >
-           {this.state.updateform && this.state.clickedId == post.id ? <UpdateForm post={post} /> :
-<View style={{flexDirection: 'row'}}>
-     <View style={{flexDirection: 'column', alignItems: 'flex-start', flex: 1}}>
-        <CardInfo post={post} />
-     </View>
+           {this.state.updateform && this.state.clickedId == post.id ?
+             <UpdateForm post={post} updateToggle={this.updateToggle} />
+             :
 
-  <View style={styles.littleButtonsContainer}>
+     <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'column', alignItems: 'flex-start', flex: 1}}>
+           <CardInfo post={post} />
+        </View>
 
-
+     <View style={styles.littleButtonsContainer}>
 
          <Button
              buttonStyle={{ backgroundColor: "#dbdbd0",}}
@@ -210,9 +222,7 @@ _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
              title='Update'
              style={styles.littleButtons}
              onPress={
-               (e) => {
-                 this.setState({updateform: !this.state.updateform, clickedId : post.id})
-               }
+               (e) => {this.updateToggle(post.id)}
              }/>
         <Button
              buttonStyle={{ backgroundColor: "#e04843",}}

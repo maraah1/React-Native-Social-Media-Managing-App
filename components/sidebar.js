@@ -5,28 +5,15 @@ import axios from 'axios';
 
 export default class SideBar extends Component {
 
-  // static navigationOptions = {
-  //   headerTitle: <HeaderTitle />
-  // };
-
 
 render(){
- console.log("SIDEBAR PROPS FROM LOGIN:", this.props.navigation.state.params.user.name)
- console.log("STATE.ACC:===> \n", this.props.screenProps.accounts)
+ // console.log("SIDEBAR PROPS FROM LOGIN:", this.props.navigation.state.params.user.name)
+ // console.log("STATE.ACC:===> \n", this.props.screenProps.accounts)
 
   const { navigate } = this.props.navigation;
   let name = this.props.navigation.state.params.user.name
 
   let listOfAccounts =  this.props.screenProps.accounts.map(account =>
-    // <Button
-    //  raised
-    //  style={styles.button}
-    //  color="#5f66b8"
-    //  key={account.media_buttons_id}
-    //  title={account.name}
-    //  buttonStyle={{
-    //    backgroundColor: '#8ee6e0'
-    //  }}/>
    <TouchableOpacity
       key={account.media_buttons_id}
       onPress={

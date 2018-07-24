@@ -5,15 +5,10 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, AsyncStorage, Imag
 import { Button,  Header, Icon } from 'react-native-elements';
 import Register from './register';
 
-// import AccountHolder from './accountHolder'
-
 
 
 export default class Main extends Component {
 
-  // static navigationOptions = {
-  //   headerVisible : false
-  // };
 
 componentWillMount = () => {
  // console.log('PROPS', this.props)

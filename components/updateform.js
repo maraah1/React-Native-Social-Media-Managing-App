@@ -6,9 +6,10 @@ import axios from 'axios'
 
 export default class UpdateForm extends Component {
 
-state={
-  isVisible: true
+state = {
+  newstate : []
 }
+
 
 handleSubmit = (id, e) => {
   newState = {
@@ -19,9 +20,10 @@ handleSubmit = (id, e) => {
     time: this.state.time
 
   }
-  axios.put(`http://localhost:8000/update/${id}`, newState)
+  console.log("NEW STATE:", this.state)
+  axios.put(`http://localhost:8000/update/${id}`, this.state)
   .then(results => {
-    console.log(results)
+    console.log("UPDATE FORM RESULTS:", results);
   }).catch(error => {
     console.log(error)
   })
@@ -30,7 +32,7 @@ handleSubmit = (id, e) => {
 
   render(){
     console.log("UPDATE FORM PROPS:", this.props)
-    const {navigate} = this.props.navigation
+    console.log("UPDATE FORM STATE:", this.state)
     return(
       <View>
         {/* <Modal animationType="slide"
@@ -48,16 +50,19 @@ handleSubmit = (id, e) => {
             />}
           onChangeText={(image) => this.setState({image})}
         />
+
         <TextInput
           style={styles.inputs}
           placeholder={this.props.post.post}
           onChangeText={(post) => this.setState({post})}
         />
+
         <TextInput
-          style={styles.input}
+          style={styles.inputs}
           placeholder={this.props.post.day}
           onChangeText={(day) => this.setState({day})}
         />
+
         <TextInput
           style={styles.inputs}
           placeholder={this.props.post.time}
@@ -70,7 +75,7 @@ handleSubmit = (id, e) => {
           style={styles.littleButtons}
           title='Update'
           onPress={
-            (e) => {this.handleSubmit(this.props.post.id, e)}
+            (e) => {this.handleSubmit(this.props.post.id, e), this.props.updateToggle(this.props.post.id)}
           }
 
         />
@@ -84,8 +89,9 @@ handleSubmit = (id, e) => {
 
 const styles= StyleSheet.create({
   inputs : {
-    height: 100,
-    width: 100,
+    height: 50,
+    width: 200,
+    alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: 'white',
     backgroundColor: 'white',

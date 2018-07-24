@@ -24,12 +24,12 @@ handleSubmit = e => {
 
 axios.post(`http://localhost:8000/login`, this.state)
     .then((response)=>{
-      console.log("response", response)
+      // console.log("response", response)
       if(response === 'false' || response === null){
       navigate('Second', {})
     }else{
       const { navigate } = this.props.navigation;
-      console.log("login response:", response.data)
+      // console.log("login response:", response.data)
       navigate('Third', {user : response.data})
     }
 
