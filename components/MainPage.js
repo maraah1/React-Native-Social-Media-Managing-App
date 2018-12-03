@@ -46,7 +46,12 @@ class MyMenu extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    return <MenuNav navigation={navigation} screenProps={{getSideMenuInfo:this.getSideMenuInfo.bind(this), accounts: this.state.accounts} } />;
+
+    return (
+      <MenuNav
+        navigation={navigation} screenProps={{getSideMenuInfo:this.getSideMenuInfo.bind(this), accounts: this.state.accounts} } 
+      />;
+    )
   }
 }
 

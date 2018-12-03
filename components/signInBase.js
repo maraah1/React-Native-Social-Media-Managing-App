@@ -9,33 +9,27 @@ export default class SignInBase extends Component {
   render(){
 
     const {navigate} = this.props.navigation
-    console.log("PROPS FROM BASE:", this.props.navigation.state.params)
+
+    return (
+        <View>
+
+           <Account info={this.props} />
 
 
-    return(
-      <View>
+            <Button
+              raised
+              style={{width: 100, height: 100}}
+              onPress = {() => navigate('Fourth', {})}
+              title = "Back To Accounts"
+            />
 
-       <Account info={this.props} />
-
-
-        <Button
-          raised
-          style={{width: 100, height: 100}}
-          onPress = {
-            () => navigate('Fourth', {})
-          }
-          title = "Back To Accounts"
-        />
-
-        <Button
-          raised
-          style={{width: 100, height: 100}}
-          onPress = {
-            () => navigate('First', {})
-          }
-          title = "Continue To Login"
-        />
-      </View>
-    )
-  }
-}
+            <Button
+              raised
+              style={{width: 100, height: 100}}
+              onPress = {() => navigate('First', {})}
+              title = "Continue To Login"
+            />
+        </View>
+     )
+   }
+ }

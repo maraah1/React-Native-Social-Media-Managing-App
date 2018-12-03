@@ -23,77 +23,64 @@ export default class Account extends Component {
  render(){
    const {navigate} = this.props.navigation
    const name = this.props.navigation.state.params.media_name
-console.log("ACCOUNT SIGN IN PROPS:", this.props)
 
 
    return(
-<View style={{backgroundColor: 'white', flex: 1}}>
+      <View style={{backgroundColor: 'white', flex: 1}}>
 
-     <Header
-       outerContainerStyles={{ backgroundColor: 'black'}}
-       centerComponent={<Text style={styles.text}>{name}</Text> }
-       leftComponent={
-         <Icon
-         name='keyboard-arrow-left'
-         color='#8ee6e0'
-         onPress = {
-           () => navigate('Fifth', {})
-         }
-       />
-     }
-     />
+         <Header
+           outerContainerStyles={{ backgroundColor: 'black'}}
+           centerComponent={<Text style={styles.text}>{name}</Text> }
+           leftComponent={
+             <Icon
+             name='keyboard-arrow-left'
+             color='#8ee6e0'
+             onPress = {() => navigate('Fifth', {})}
+            />
+           }
+         />
 
-   <View style={styles.inputs}>
+         <View style={styles.inputs}>
 
+             <TextInput
+               style={styles.textBox}
+               onChangeText={(media_username) => this.setState({media_username})}
+               autoCapitalize= 'none'
+               placeholder= "Username"
+               value={this.state.media_username}
+             />
 
-     <TextInput
-       style={styles.textBox}
-       onChangeText={(media_username) => this.setState({media_username})}
-       autoCapitalize= 'none'
-       placeholder= "Username"
-       value={this.state.media_username}
-     />
-
-     <TextInput
-       style={styles.textBox}
-       onChangeText={(media_password) => this.setState({media_password})}
-       autoCapitalize= 'none'
-       placeholder= "Password"
-       value={this.state.media_password}
-       secureTextEntry={true}
-     />
+             <TextInput
+               style={styles.textBox}
+               onChangeText={(media_password) => this.setState({media_password})}
+               autoCapitalize= 'none'
+               placeholder= "Password"
+               value={this.state.media_password}
+               secureTextEntry={true}
+             />
 
 
-     <Button
-       raised
-       color='#5f66b8'
-       buttonStyle={{
-          backgroundColor: "#8ee6e0",
-       }}
-       style={styles.postButtons}
-       onPress = {
-         (e) => {this.handleSubmit()}
-       }
-       title = "Sign In"
-     />
-   </View>
+             <Button
+               raised
+               color='#5f66b8'
+               buttonStyle={{ backgroundColor: "#8ee6e0" }}
+               style={styles.postButtons}
+               onPress={ (e) => {this.handleSubmit()} }
+               title = "Sign In"
+             />
+         </View>
 
-     <Button
-       style={{marginTop: 0}}
-       color='#5f66b8'
-       buttonStyle={{
-         backgroundColor: 'white',
-       }}
-       onPress = {
-         () => navigate('Second', {})
-       }
-       title = 'Continue To Login'
-     />
+           <Button
+             style={{marginTop: 0}}
+             color='#5f66b8'
+             buttonStyle={{ backgroundColor: 'white'}}
+             onPress = { () => navigate('Second', {})}
+             title = 'Continue To Login'
+           />
 
-</View>
-   )
- }
-
+      </View>
+    )
+  }
 }
 
 

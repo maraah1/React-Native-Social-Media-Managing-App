@@ -8,89 +8,78 @@ export default class Login extends Component {
     headerStyle: {
      display: 'none',
    }
-  };
+};
 
 
 
 
-state= {
-  email: '',
-  password: ''
+  state= {
+    email: '',
+    password: ''
+  }
+
+
+  handleSubmit = e => {
+    axios.post(`http://localhost:8000/login`, this.state)
+      .then((response)=>{
+        if(response === 'false' || response === null){
+          navigate('Second', {})
+       } else {
+        const { navigate } = this.props.navigation;
+        navigate('Third', {user : response.data})
+     }
+  })
 }
 
+  render() {
 
-handleSubmit = e => {
-  console.log("handle submit called")
+    const { navigate } = this.props.navigation;
 
-axios.post(`http://localhost:8000/login`, this.state)
-    .then((response)=>{
-      // console.log("response", response)
-      if(response === 'false' || response === null){
-      navigate('Second', {})
-    }else{
-      const { navigate } = this.props.navigation;
-      // console.log("login response:", response.data)
-      navigate('Third', {user : response.data})
-    }
+    return (
+      <View style={styles.container}>
 
- })
-}
+        <Image style={{height: 300, width: 300, marginLeft: 40}} source={require('/Users/maraahlee/testing/whiteIcon.png')} />
 
-render(){
-  const { navigate } = this.props.navigation;
-  return (
-    <View style={styles.container}>
+          <View style={{marginBottom: 50}}>
 
-      <Image style={{height: 300, width: 300, marginLeft: 40}} source={require('/Users/maraahlee/testing/whiteIcon.png')} />
+              <TextInput
+                style={styles.textBox}
+                placeholder="Enter email"
+                autoCapitalize= 'none'
+                onChangeText= {(email) => this.setState({email})}
+                value={this.state.email}
 
-      <View style={{marginBottom: 50}}>
-        <TextInput
-          style={styles.textBox}
-          placeholder="Enter email"
-          autoCapitalize= 'none'
-          onChangeText= {(email) => this.setState({email})}
-          value={this.state.email}
+              />
 
-        />,
-        <TextInput
-          style={styles.textBox}
-          placeholder='Enter Password'
-          autoCapitalize= 'none'
-          onChangeText= {(password) => this.setState({password})}
-          value={this.state.password}
-          secureTextEntry={true}
+              <TextInput
+                style={styles.textBox}
+                placeholder='Enter Password'
+                autoCapitalize= 'none'
+                onChangeText= {(password) => this.setState({password})}
+                value={this.state.password}
+                secureTextEntry={true}
 
-        />
+              />
 
+              <Button
+                style={styles.buttons}
+                buttonStyle={{ backgroundColor: "#5f66b8"}}
+                raised
+                onPress = {(e) => {this.handleSubmit()}}
+                title = "Login"
+              />
 
-
-        <Button
-          style={styles.buttons}
-          buttonStyle={{
-             backgroundColor: "#5f66b8",
-          }}
-          raised
-          onPress = {
-            (e) => {this.handleSubmit()}
-          }
-          title = "Login"
-        />
-        <Button
-          style={styles.buttons}
-          color="#5f66b8"
-          buttonStyle={{
-             backgroundColor: "#8ee6e0",
-          }}
-          onPress = {
-          () => navigate("Fourth", {})
-          }
-          title = "Register"
-        />
-     </View>
-    </View>
-  )
-}
-
+              <Button
+                style={styles.buttons}
+                color="#5f66b8"
+                buttonStyle={{ backgroundColor: "#8ee6e0" }}
+                onPress = { () => navigate("Fourth", {})}
+                title = "Register"
+              />
+         </View>
+      </View>
+    )
+  }
 }
 
 

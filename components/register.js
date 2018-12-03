@@ -5,98 +5,85 @@ import axios from 'axios';
 
 export default class Register extends Component {
 
-state = {
-  name: '',
-  email: '',
-  password: ''
-}
+  state = {
+    name: '',
+    email: '',
+    password: ''
+  }
 
-handleSubmit = e => {
-console.log("register submit hit")
-axios.post(`http://localhost:8000/register`, this.state)
-   .then(response => {
-     console.log("register response:", response.data)
-     const { navigate } = this.props.navigation
-     navigate('Fifth', { user : response.data})
- })
-}
+  handleSubmit = e => {
+
+  axios.post(`http://localhost:8000/register`, this.state)
+     .then(response => {
+       console.log("register response:", response.data)
+       const { navigate } = this.props.navigation
+       navigate('Fifth', { user : response.data})
+   })
+  }
 
 
 
-render(){
+  render(){
 
- const {navigate} = this.props.navigation
+   const {navigate} = this.props.navigation
 
-  return (
-    <View style={styles.container}>
+    return (
+      <View style={styles.container}>
 
-      <Header
-        outerContainerStyles={{ backgroundColor: '#8ee6e0' }}
-        // style={{alignItems: 'center'}}
-        centerComponent={
-
-          <Image
-           style={{height: 100, width: 100, alignItems: 'center', flex: 1}}
-           source={require('/Users/maraahlee/testing/newAppIcon.png')}
-          />
-        }
-        leftComponent={
-          <Icon
-          name='keyboard-arrow-left'
-          onPress = {
-            () => navigate('Second', {})
+        <Header
+          outerContainerStyles={{ backgroundColor: '#8ee6e0' }}
+          centerComponent={
+            <Image
+             style={{height: 100, width: 100, alignItems: 'center', flex: 1}}
+             source={require('/Users/maraahlee/testing/newAppIcon.png')}
+            />
           }
-        />
-      }
-        >
+           leftComponent={
+              <Icon
+              name='keyboard-arrow-left'
+              onPress = {() => navigate('Second', {})}
+              />
+          }
+          />
 
+          <View style={styles.inputs}>
 
-      </Header>
+              <TextInput
+                style={styles.textBox}
+                onChangeText={(name) => this.setState({name})}
+                autoCapitalize= 'none'
+                placeholder= "Enter Name"
+                value={this.state.name}
+              />
 
+              <TextInput
+                style={styles.textBox}
+                onChangeText={(email) => this.setState({email})}
+                autoCapitalize= 'none'
+                placeholder= "Enter Email"
+                value={this.state.email}
+              />
 
-<View style={styles.inputs}>
-    <TextInput
-      style={styles.textBox}
-      onChangeText={(name) => this.setState({name})}
-      autoCapitalize= 'none'
-      placeholder= "Enter Name"
-      value={this.state.name}
-    />
+              <TextInput
+                style={styles.textBox}
+                onChangeText={(password) => this.setState({password})}
+                autoCapitalize= 'none'
+                placeholder= "Enter Password"
+                value={this.state.password}
+                secureTextEntry={true}
+              />
+          </View>
 
-    <TextInput
-      style={styles.textBox}
-      onChangeText={(email) => this.setState({email})}
-      autoCapitalize= 'none'
-      placeholder= "Enter Email"
-      value={this.state.email}
-    />
-
-    <TextInput
-      style={styles.textBox}
-      onChangeText={(password) => this.setState({password})}
-      autoCapitalize= 'none'
-      placeholder= "Enter Password"
-      value={this.state.password}
-      secureTextEntry={true}
-    />
-</View>
-
-
-    <Button
-      style={styles.buttons}
-      raised
-      buttonStyle={{
-         backgroundColor: "#8ee6e0",
-      }}
-      onPress = {
-        (e) => {this.handleSubmit()}
-      }
-      title = "Register"
-    />
-    </View>
-  )
-}
-
+          <Button
+            style={styles.buttons}
+            raised
+            buttonStyle={{ backgroundColor: "#8ee6e0" }}
+            onPress = {(e) => {this.handleSubmit()}}
+            title = "Register"
+          />      
+      </View>
+    )
+  }
 }
 
 

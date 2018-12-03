@@ -20,65 +20,54 @@ export default class ButtonsList extends Component {
   }
 
 
-render(){
+render() {
   const {navigate} = this.props.navigation
 
     let listOfButtons = this.state.buttons ? this.state.buttons.map( button =>
 
-    <TouchableOpacity
-      key={button.id}
-      onPress={
-      () =>  navigate('Sixth', {
-              user_id : this.props.navigation.state.params.user.id,
-              media_buttons_id : button.id,
-              media_name: button.name,
-              media_pic: button.img_url
-          })
-    }>
+          <TouchableOpacity
+            key={button.id}
+            onPress={
+            () =>  navigate('Sixth', {
+                    user_id : this.props.navigation.state.params.user.id,
+                    media_buttons_id : button.id,
+                    media_name: button.name,
+                    media_pic: button.img_url
+                })
+          }>
+              <Image  style={styles.buttons} source={{uri : button.img_url}} />
+          </TouchableOpacity>
+        ) : null
 
-    <Image  style={styles.buttons} source={{uri : button.img_url}} />
+    return (
+         <View>
 
+           <Header
+             outerContainerStyles={{ backgroundColor: 'black' }}
+             centerComponent={
+               <Image
+                style={{height: 100, width: 100, alignItems: 'center', flex: 1}}
+                source={require('/Users/maraahlee/testing/newAppIcon.png')}
+               />
+             }
+             leftComponent={
+               <Icon
+               name='keyboard-arrow-left'
+               color="#8ee6e0"
+               onPress = {() => navigate('Fourth', {})}
+               />
+             }
 
-    </TouchableOpacity>
-  ) : null
-
-
-    // console.log("buttonsList props:", this.props.navigation.state.params.user)
-    // console.log('STATE =====>\n', this.state.buttons)
-    // console.log("list of buttons:", listOfButtons)
-
-    return(
-     <View>
-
-       <Header
-         outerContainerStyles={{ backgroundColor: 'black' }}
-         centerComponent={
-           <Image
-            style={{height: 100, width: 100, alignItems: 'center', flex: 1}}
-            source={require('/Users/maraahlee/testing/newAppIcon.png')}
-           />
-         }
-         leftComponent={
-           <Icon
-           name='keyboard-arrow-left'
-           color="#8ee6e0"
-           onPress = {
-             () => navigate('Fourth', {})
-           }
          />
-         }
 
-     />
+           <View style={styles.buttonsList}>
+              {listOfButtons}
+           </View>
 
-   <View style={styles.buttonsList}>
-    {listOfButtons}
-   </View>
-
-     </View>
+         </View>
 
     )
   }
-
 }
 
 

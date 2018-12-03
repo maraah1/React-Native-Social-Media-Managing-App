@@ -6,48 +6,43 @@ import axios from 'axios'
 
 export default class UpdateForm extends Component {
 
-state = {
-  newstate : []
-}
-
-
-handleSubmit = (id, e) => {
-  newState = {
-    media_buttons_id : this.props.post.media_buttons_id,
-    image : this.state.image,
-    post: this.state.post,
-    day: this.state.day,
-    time: this.state.time
-
+  state = {
+    newstate : []
   }
-  console.log("NEW STATE:", this.state)
-  axios.put(`http://localhost:8000/update/${id}`, this.state)
-  .then(results => {
-    console.log("UPDATE FORM RESULTS:", results);
-  }).catch(error => {
-    console.log(error)
+
+
+  handleSubmit = (id, e) => {
+    newState = {
+      media_buttons_id : this.props.post.media_buttons_id,
+      image : this.state.image,
+      post: this.state.post,
+      day: this.state.day,
+      time: this.state.time
+
+   }
+
+    axios.put(`http://localhost:8000/update/${id}`, this.state)
+    .then(results => {
+      console.log("UPDATE FORM RESULTS:", results);
+    }).catch(error => {
+      console.log(error)
   })
 }
 
 
-  render(){
-    console.log("UPDATE FORM PROPS:", this.props)
-    console.log("UPDATE FORM STATE:", this.state)
-    return(
+  render() {
+
+    return (
       <View>
-        {/* <Modal animationType="slide"
-          transparent={false}
-          visible={this.state.isVisible}
-          onRequestClose={() => {
-            alert('Modal has been closed.');
-          }}> */}
 
         <TextInput
           style={styles.inputs}
-          image={<Image
+          image={
+            <Image
               style={{height: 100, width: 100}}
               source={{uri : this.props.post.image}}
-            />}
+            />
+          }
           onChangeText={(image) => this.setState({image})}
         />
 
@@ -80,7 +75,6 @@ handleSubmit = (id, e) => {
 
         />
 
-      {/* </Modal> */}
       </View>
     )
   }

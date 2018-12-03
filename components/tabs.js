@@ -7,10 +7,10 @@ import Login from './login'
 import Analytics from './analytics'
 
 const Tabs = createBottomTabNavigator ({
-  POSTS : AccountProfile,
-  ANALYTICS: Analytics
-},
-{
+    POSTS : AccountProfile,
+    ANALYTICS: Analytics
+  },
+  {
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({}) => {
         const { routeName } = navigation.state;
@@ -21,16 +21,16 @@ const Tabs = createBottomTabNavigator ({
           iconName ='timeline';
         }
         return <Icon name={iconName} style={{height: 30, width: 30}} />
-      },
+       },
     }),
 
-    tabBarOptions: {
-      activeTintColor: '#8ee6e0',
-      inactiveTintColor: '#5f66b8',
-    },
-    animationEnabled: false,
-    swipeEnabled: false,
-  }
+      tabBarOptions: {
+        activeTintColor: '#8ee6e0',
+        inactiveTintColor: '#5f66b8',
+      },
+      animationEnabled: false,
+      swipeEnabled: false,
+    }
 )
 
 export default Tabs
